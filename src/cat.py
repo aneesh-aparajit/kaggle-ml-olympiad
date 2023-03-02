@@ -61,7 +61,7 @@ def lr_run_training(fold):
     print(f'Train RMLSE: {train_rmlse}')
     print(f'Valid RMLSE: {valid_rmlse}')
     
-    pred_df.loc[valid_idx, f"fold_preds"] = valid_pred
+    pred_df.loc[valid_idx, f"cat_preds"] = valid_pred
 
     return model, train_rmlse, valid_rmlse,
 
