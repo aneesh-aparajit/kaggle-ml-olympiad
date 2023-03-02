@@ -33,8 +33,11 @@ def rmsle(predicted, actual):
 
 df = pd.read_csv('../training_folds.csv')
 
+print(df.head())
+
 pred_df = copy.deepcopy(df)
-pred_df["fold_preds"] = -1
+print(pred_df.head())
+pred_df["lgbm_preds"] = -1
 
 def lr_run_training(fold):
     train_df = df[df.kfold != fold]
@@ -55,16 +58,11 @@ def lr_run_training(fold):
     train_rmlse = rmsle(predicted=train_pred, actual=ytrain)
     valid_rmlse = rmsle(predicted=valid_pred, actual=yvalid)
     
-    print('#'*15)
-    print(f'### Fold #{fold}')
-    print('#'*15)
+    print(f'### Fold #{fold}, Train RMLSE: {train_rmlse}, Valid RMLSE: {valid_rmlse}')
     
-    print(f'Train RMLSE: {train_rmlse}')
-    print(f'Valid RMLSE: {valid_rmlse}')
-    
-    pred_df.loc[valid_idx, f"lgbm_preds"] = valid_pred
+    pred_df.loc[valid_idx, "lgbm_preds"] = valid_pred
 
-    return model, train_rmlse, valid_rmlse,
+    return model, train_rmlse, valid_rmlse
 
 
 if __name__ == '__main__':
@@ -77,10 +75,8 @@ if __name__ == '__main__':
         models.append(model)
         train_losses.append(train_loss)
         valid_losses.append(valid_loss)
-        
-        print('\n')
 
-    # print(pred_df.head())
+    print(pred_df.isna().sum())
 
     pred_df.to_csv('../preds/lgbm_preds.csv')
 

@@ -31,7 +31,7 @@ def rmsle(predicted, actual):
 df = pd.read_csv('../training_folds.csv')
 
 pred_df = copy.deepcopy(df)
-pred_df["fold_preds"] = -1
+pred_df["lr_preds"] = -1
 
 def lr_run_training(fold):
     train_df = df[df.kfold != fold]

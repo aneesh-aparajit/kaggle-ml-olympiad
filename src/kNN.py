@@ -31,7 +31,7 @@ def rmsle(predicted, actual):
 df = pd.read_csv('../training_folds.csv')
 
 pred_df = copy.deepcopy(df)
-pred_df["fold_preds"] = -1
+pred_df["kNN_preds"] = -1
 
 def lr_run_training(fold):
     train_df = df[df.kfold != fold]
@@ -52,16 +52,11 @@ def lr_run_training(fold):
     train_rmlse = rmsle(predicted=train_pred, actual=ytrain)
     valid_rmlse = rmsle(predicted=valid_pred, actual=yvalid)
     
-    print('#'*15)
-    print(f'### Fold #{fold}')
-    print('#'*15)
+    print(f'### Fold #{fold}, Train RMLSE: {train_rmlse}, Valid RMLSE: {valid_rmlse}')
     
-    print(f'Train RMLSE: {train_rmlse}')
-    print(f'Valid RMLSE: {valid_rmlse}')
-    
-    pred_df.loc[valid_idx, f"kNN_preds"] = valid_pred
+    pred_df.loc[valid_idx, "kNN_preds"] = valid_pred
 
-    return model, train_rmlse, valid_rmlse,
+    return model, train_rmlse, valid_rmlse
 
 
 if __name__ == '__main__':
