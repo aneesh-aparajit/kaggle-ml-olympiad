@@ -1,0 +1,8 @@
+kaggle/
+catboost_info/
+.ipynb_checkpoints/
+*.ipynb
+fold-predictions/
+*.csv
+preds/
+model_ckpt/
